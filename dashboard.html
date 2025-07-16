@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Imóveis - João Pessoa</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard de Imóveis - João Pessoa</h1>
+        <div id="preco-medio-bairro"></div>
+        <div id="numero-imoveis-bairro"></div>
+    </div>
+
+    <script>
+        fetch('imoveis.json')
+            .then(response => response.json())
+            .then(data => {
+                // Preço médio por bairro
+                const precos = {};
+                const bairros = {};
+                data.forEach(imovel => {
+                    const bairro = imovel.endereco.split('-').pop().trim();
+                    if (bairros[bairro]) {
+                        bairros[bairro]++;
+                        precos[bairro] += parseFloat(imovel.preco.replace('R$ ', '').replace('.', '').replace(',', '.'));
+                    } else {
+                        bairros[bairro] = 1;
+                        precos[bairro] = parseFloat(imovel.preco.replace('R$ ', '').replace('.', '').replace(',', '.'));
+                    }
+                });
+
+                const precosMedios = Object.keys(precos).map(bairro => {
+                    return {
+                        bairro: bairro,
+                        preco_medio: precos[bairro] / bairros[bairro]
+                    };
+                });
+
+                precosMedios.sort((a, b) => b.preco_medio - a.preco_medio);
+
+                const trace1 = {
+                    x: precosMedios.map(item => item.bairro),
+                    y: precosMedios.map(item => item.preco_medio),
+                    type: 'bar'
+                };
+
+                const layout1 = {
+                    title: 'Preço Médio por Bairro'
+                };
+
+                Plotly.newPlot('preco-medio-bairro', [trace1], layout1);
+
+                // Número de imóveis por bairro
+                const bairrosCount = Object.keys(bairros).map(bairro => {
+                    return {
+                        bairro: bairro,
+                        count: bairros[bairro]
+                    };
+                });
+
+                bairrosCount.sort((a, b) => b.count - a.count);
+
+                const trace2 = {
+                    x: bairrosCount.map(item => item.bairro),
+                    y: bairrosCount.map(item => item.count),
+                    type: 'bar'
+                };
+
+                const layout2 = {
+                    title: 'Número de Imóveis por Bairro'
+                };
+
+                Plotly.newPlot('numero-imoveis-bairro', [trace2], layout2);
+            });
+    </script>
+</body>
+</html>
