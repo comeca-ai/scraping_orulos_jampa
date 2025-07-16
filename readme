@@ -1,10 +1,37 @@
-Seja um agente e execute o seguinte objetivo - Preciso que todos os imoveis do site: da cidade de joao pessoa
+# Projeto de Análise de Imóveis em João Pessoa
 
-https://www.orulo.com.br/buildings?map_sw_lat=-7.38160252972348&map_sw_lng=-35.244709276314666&map_ne_lat=-6.830226988194283&map_ne_lng=-34.52622672368301&page=1
+Este projeto realiza o scraping, análise e visualização de dados de imóveis da cidade de João Pessoa, disponíveis no site Orulo.
 
-Que seja feito o scraping de cada um dos imoveis e todos seus dados disponiveis. O arquivo final pode estar em formatos .json e .csv
-Esse material  sera utilizado para avaliacaoes financeiras, portanto, quanto mais dados do imoveis melhor. Porem, se limite a este site.
+## Como executar
 
-Ao final monte uma pagina HTML com os dashboards referente aos numeros de casas, preco meio por bairro, etc.
+1. **Instale as dependências:**
 
-Lembrando que estes sites Sao muulti paginas, portanto  ese um ponto de atencao. Alem de fazer a extracao, os scripts precisam estar todos organizados e documentados.
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Execute o scraper:**
+
+   ```bash
+   python scraper.py
+   ```
+
+   Isso irá gerar os arquivos `imoveis.json` e `imoveis.csv`.
+
+3. **Visualize a análise:**
+
+   Abra o notebook `analise.ipynb` em um ambiente Jupyter para ver a análise exploratória dos dados.
+
+4. **Visualize o dashboard:**
+
+   Abra o arquivo `dashboard.html` em seu navegador para ver os gráficos interativos.
+
+## Arquivos
+
+- `scraper.py`: Script para fazer o scraping dos dados do site Orulo.
+- `analise.ipynb`: Notebook com a análise exploratória dos dados.
+- `dashboard.html`: Página web com os dashboards.
+- `imoveis.json`: Dados dos imóveis em formato JSON.
+- `imoveis.csv`: Dados dos imóveis em formato CSV.
+- `readme`: Este arquivo.
+- `requirements.txt`: Lista de dependências do projeto.
